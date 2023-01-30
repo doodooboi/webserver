@@ -1,0 +1,32 @@
+h1, p , label{
+  color: #FFFFFF
+}
+
+span {
+  color: gold
+}
+
+.title {
+  text-align: center;
+}
+
+body {
+  background-color: #1b263b;
+
+  margin: 0;
+
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.loginform{
+  display: flex;
+  flex-direction: column;
+}
