@@ -8,9 +8,16 @@ const secured = express.Router()
 const public = express();
 
 const Renderer = new Worker("./worker-school.js")
-const Settings = require('./settings')
+const Settings = require('./settings');
+
+let authorized = []
 
 function auth(req, res, next) {
+  if (authorized.includes(req.socket.remoteAddress)) {
+    console.log("auth-bypass")
+    return next()
+  }
+
   const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
 
   if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
@@ -20,6 +27,7 @@ function auth(req, res, next) {
   const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
 
   if (login && password && login === process.env.ROOT && password === process.env.ROOTPASSWORD) {
+    authorized.push(req.socket.remoteAddress)
     return next()
   }
 
@@ -35,6 +43,7 @@ public.use(express.urlencoded({ extended: true }));
 public.use(express.json());
 
 public.use("/", router);
+public.use("/static", express.static(__dirname + "/client"))
 public.use("/secured", secured)
 
 public.listen(1820, () => {
@@ -43,6 +52,15 @@ public.listen(1820, () => {
 
 Renderer.on("message", (data) => {
     Frames.push(data)
+})
+
+public.post("/authorize", (req, res) => {
+console.log(req.socket.remoteAddress)
+  res.json({response: "AUTHORIZED"})
+})
+
+public.get("/web", (req, res) => {
+  res.sendFile(__dirname + "/./client/test.html")
 })
 
 public.get("/settings", (req, res) => {

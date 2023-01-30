@@ -6,6 +6,18 @@ span {
   color: gold
 }
 
+.sub {
+  background-color: rgb(39, 210, 102);
+  margin-top: 10px;
+  height: 30px;
+  border-radius: 2px;
+  border:rgb(39, 210, 102);
+}
+
+.sub:hover {
+  background-color: rgb(47, 228, 113);
+}
+
 .title {
   text-align: center;
 }
