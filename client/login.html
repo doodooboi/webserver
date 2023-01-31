@@ -1,8 +1,8 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="https://caca.onthewifi.com/static/login.css">
-  <script src="page-js.js" defer></script>
+  <link rel="stylesheet" href="https://doodooboi-redesigned-umbrella-7w794jxqx5v2w57g-1820.preview.app.github.dev/static/login.css">
+  <script src="https://doodooboi-redesigned-umbrella-7w794jxqx5v2w57g-1820.preview.app.github.dev/static/login.js" defer></script>
 
   <meta charset="utf8" />
   <title>Control</title>
@@ -13,17 +13,17 @@
   
       <h1 class="title">Control Panel</h1>
       <div class="status-box">
-        <p><span class="response">000:</span> Invalid Response</p>
+        <p><span class="response">000:</span> Waiting for response</p>
       </div>
   
-      <form action="https://caca.onthewifi.com/auth/login" method="POST">
+      <form onsubmit="return login()">
         <div class="loginform">
          <label for="user"></label>
          <input type="text" id="user" name="user" placeholder="Username:">
          <label for="pass"></label>
          <input type="password" id="pass" name="pass" placeholder="Password:">
   
-         <button class="sub">Submit</button>
+         <button class="sub" id="sub">Submit</button>
         </div>
       </form>
     </div>

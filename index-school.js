@@ -13,7 +13,13 @@ const Settings = require('./settings');
 let Authorized = []
 
 function CheckAuthentication(req, res, next) {
-  if (Authorized.includes(req.socket.remoteAddress)) {
+  const ip = req.socket.remoteAddress.toString()
+  console.log()
+  console.log("Checking authentication for: " + ip)
+ //
+  console.table(Authorized)
+
+  if (Authorized.includes(ip)) {
     if (next) {next();}
 
     return true;
@@ -25,10 +31,13 @@ function CheckAuthentication(req, res, next) {
   if (login && password && login === process.env.ROOT && password === process.env.ROOTPASSWORD) {
     if (next) {next();}
 
-    Authorized.push(req.socket.remoteAddress)
+    console.log("New whitelist pushed: " + ip)
+    Authorized.push(ip)
 
     return true;
   } else {
+    console.log("Not authorized")
+    console.log()
     res.status(403).json({response: "NOT-LOGGED-IN"});
   }
 }
@@ -64,19 +73,20 @@ public.get("/", (req, res) => {
   res.status(200).sendFile(__dirname + "/client/login.html")
 })
 
-public.post("/auth/login", (req, res) => {
+public.post("/auth-api/login", (req, res) => {
+  console.log("auth-api/login: " + req.socket.remoteAddress.toString())
   const success = CheckAuthentication(req, res)
 
   if (success) {
     res.status(200).json({response: "LOGGED-IN"})
-
-    let x = Authorized.indexOf(req.socket.remoteAddress)
-    Authorized.splice(x, 1)
   }
 })
 
-public.post("/auth/logout", (req, res) => {
+public.post("/auth-api/logout", (req, res) => {
   res.status(401).json({response: "BAD-REQUEST"})
+
+  let x = Authorized.indexOf(req.socket.remoteAddress)
+  Authorized.splice(x, 1)
 })
 
 public.get("/settings", (req, res) => {
