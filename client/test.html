@@ -1,34 +1,33 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="https://doodooboi-redesigned-umbrella-7w794jxqx5v2w57g-1820.preview.app.github.dev/static/test.css">
-    <script src="page-js.js" defer></script>
 
-    <meta charset="utf8"/>
-    <title>Control</title>
-  </head>
+<head>
+  <link rel="stylesheet" href="https://caca.onthewifi.com/static/css/login.css">
+  <script src="page-js.js" defer></script>
 
-  <body>
-    
+  <meta charset="utf8" />
+  <title>Control</title>
+</head>
 
-    <div class = "container">
-    <h1 class="title">Control Panel</h1>
-    <div class="error-box">
-
+<body>
+    <div class="container">
+  
+      <h1 class="title">Control Panel</h1>
+      <div class="status-box">
+        <p><span class="response">000:</span> Invalid Response</p>
+      </div>
+  
+      <form action="https://caca.onthewifi.com/auth/login" method="POST">
+        <div class="loginform">
+         <label for="user"></label>
+         <input type="text" id="user" name="user" placeholder="Username:">
+         <label for="pass"></label>
+         <input type="password" id="pass" name="pass" placeholder="Password:">
+  
+         <button class="sub">Submit</button>
+        </div>
+      </form>
     </div>
 
-      <form action="https://doodooboi-redesigned-umbrella-7w794jxqx5v2w57g-1820.preview.app.github.dev/authorize" method="POST">
-        <div class = "loginform">
-        <label for="user">Username: </label>
-        <input type="text" id="user" name="user">
-        <label for="pass">Password: </label>
-        <input type="text" id="pass" name="pass">
+</body>
 
-        <button class = "sub">Submit</button>
-      </div>
-      </form>
-    
-
-    <p class="console">console</p>
-  </div>
-  </body>
 </html>
