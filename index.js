@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const {Worker} = require("worker_threads") 
 const https = require("https")
 const fs = require('fs')
@@ -13,26 +15,33 @@ const secured = express.Router()
 const public = express();
 
 const Renderer = new Worker("./capture.js")
-const Settings = require('./settings')
+const Settings = require('./settings');
 
-function auth(req, res, next) {
-  const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+let Authorized = []
 
-  if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
-    return res.status(401).json({ response: 'Missing Authorization Header' });
+function CheckAuthentication(req, res, next) {
+  if (Authorized.includes(req.socket.remoteAddress)) {
+    if (next) {next();}
+
+    return true;
   }
 
-  const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+  const login = req.body.user
+  const password = req.body.pass
 
   if (login && password && login === process.env.ROOT && password === process.env.ROOTPASSWORD) {
-    return next()
-  }
+    if (next) {next();}
 
-  res.set('WWW-Authenticate', 'Basic realm="401"')
-  res.status(401).send('Authentication required to access resource.')
+    Authorized.push(req.socket.remoteAddress)
+
+    return true;
+  } else {
+    res.status(403).json({response: "NOT-LOGGED-IN"});
+  }
 }
 
-secured.use(auth)
+
+secured.use(CheckAuthentication)
 secured.use(express.urlencoded({ extended: true }));
 secured.use(express.json());
 
@@ -40,6 +49,7 @@ public.use(express.urlencoded({ extended: true }));
 public.use(express.json());
 
 public.use("/", router);
+public.use("/static", express.static(__dirname + "/client"))
 public.use("/secured", secured)
 
 https.createServer(sslOptions, public).listen(443, () => {
@@ -59,11 +69,29 @@ public.get("/settings", (req, res) => {
 
 })
   
+secured.get("/security", (req, res) => {
+  res.status(200).json({response: "AUTHORIZED"})
+})
+
 secured.post('/settings/update', (req, res) => {
 
 })
 
+public.get("/", (req, res) => {
+  res.status(200).sendFile(__dirname + "/client/html/login.html")
+})
 
+public.post("/auth/login", (req, res) => {
+  const success = CheckAuthentication(req, res)
+
+  if (success) {
+    res.status(200).json({response: "LOGGED-IN"})
+  }
+})
+
+public.post("/auth/logout", (req, res) => {
+  res.status(401).json({response: "BAD-REQUEST"})
+})
 
 secured.get('/video', (req, res) => {
   var Data = {
