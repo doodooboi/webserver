@@ -36,9 +36,8 @@ function CheckAuthentication(req, res, next) {
 
     return true;
   } else {
-    console.log("Not authorized")
-    console.log()
-    res.status(403).json({response: "NOT-LOGGED-IN"});
+    
+    res.status(403).json({response: "Incorrect Username/Password"});
   }
 }
 
@@ -78,7 +77,7 @@ public.post("/auth-api/login", (req, res) => {
   const success = CheckAuthentication(req, res)
 
   if (success) {
-    res.status(200).json({response: "LOGGED-IN"})
+    res.status(200).json({response: "Correct"})
   }
 })
 

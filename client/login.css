@@ -2,6 +2,12 @@
   --bg: rgb(30,30,30);
   --loginbg: rgb(35,35,35);
   --inputbg: rgb(71, 71, 71);
+
+  --error: rgba(179, 62, 62, 0.637);
+  --errorborder: rgb(202, 57, 57);
+
+  --success: rgba(62, 206, 59, 0.637);
+  --successborder: rgb(62, 188, 60);
 }
 
 h1, p , label{
@@ -20,7 +26,6 @@ body {
 
 input {
   border: none;
-  border-color: var(--bg) ;
   border-radius: 2px;
   height: 30px;
   outline: none;
@@ -29,13 +34,11 @@ input {
   padding-left: 7px;
   background-color: var(--inputbg);
   
-  transition: height 0.2s, border 0.1s, outline 0.2s;
+  transition: outline 0.2s;
 }
 
 input:hover {
-  border: 2px;
-  height: 30px;
-  outline: 1px solid rgb(255,255,255)
+  outline: 2px solid rgba(255, 255, 255, 0.601)
 }
 
 input:focus {
@@ -43,14 +46,14 @@ input:focus {
 }
 
 .status-box {
-  background-color: rgba(179, 62, 62, 0.637);
+  background-color: var(--success);
   width:75%;
   height: 10%;
 
   display: flex;
 
   border-radius: 3px;
-  border: 2px solid rgb(202, 57, 57);
+  border: 2px solid var(--successborder);
 
   text-align: center;
   flex-direction: column;
