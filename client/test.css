@@ -1,32 +1,78 @@
-h1, p , label{
-  color: #FFFFFF
+:root {
+  --bg: rgb(30,30,30);
+  --loginbg: rgb(35,35,35);
+  --inputbg: rgb(71, 71, 71);
 }
 
-span {
-  color: gold
+h1, p , label{
+  color: #ffffff;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg) ;
+
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  border: none;
+  border-color: var(--bg) ;
+  border-radius: 2px;
+  height: 30px;
+  outline: none;
+
+  color: #FFFFFF;
+  padding-left: 7px;
+  background-color: var(--inputbg);
+  
+  transition: height 0.2s, border 0.1s;
+}
+
+input:hover {
+  border: 2px;
+  height: 30px;
+}
+
+input:focus {
+  border-bottom: 3px solid rgb(57, 117, 197);
+}
+
+.status-box {
+  background-color: rgba(179, 62, 62, 0.637);
+  width:75%;
+  height: 10%;
+
+  border-radius: 3px;
+  border: 2px solid rgb(202, 57, 57);
+
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .sub {
   background-color: rgb(39, 210, 102);
-  margin-top: 10px;
   height: 30px;
   border-radius: 2px;
-  border:rgb(39, 210, 102);
+  border:rgb(36, 160, 82);
+  color: #ffffff;
+  
+  margin-top: 50px;
 }
 
 .sub:hover {
-  background-color: rgb(47, 228, 113);
+  background-color: rgb(48, 197, 103);
 }
 
 .title {
   text-align: center;
-}
-
-body {
-  background-color: #1b263b;
-
-  margin: 0;
-
+  margin-top: -0%;
+  padding-top: 15px;
 }
 
 .container{
@@ -35,10 +81,22 @@ body {
   justify-content: center;
   align-items: center;
 
+  margin-top: 25px;
+
+  height: 300px;
+  width: 300px;
+
+  background-color: var(--loginbg);
+  border-radius: 5px;
 }
 
+.loginform label {
+  padding-top: 10px;
+  font-weight: bold;
+}
 
 .loginform{
+  padding-top: 10%;
   display: flex;
   flex-direction: column;
 }
