@@ -10,47 +10,30 @@ const public = express();
 const Renderer = new Worker("./worker-school.js")
 const Settings = require('./settings');
 
-let authorized = []
+let Authorized = []
 
-function auth(req, res, next) {
-  console.log(req.body)
-
-  if (authorized.includes(req.socket.remoteAddress)) {
-    console.log("auth-bypass")
-    res.json({response: "ALREADY LOGGED IN"})
-    if (next) {
-      return next()
-    }
+function CheckAuthentication(req, res, next) {
+  if (Authorized.includes(req.socket.remoteAddress)) {
+    if (next) {next();}
 
     return true;
-  } 
+  }
 
-  //const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
-//
-  //if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
-  //  return res.status(401).json({ response: 'Missing Authorization Header' });
-  //}
-//
-  //const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
   const login = req.body.user
   const password = req.body.pass
 
   if (login && password && login === process.env.ROOT && password === process.env.ROOTPASSWORD) {
-    authorized.push(req.socket.remoteAddress)
-    res.json({response:"LOGGED IN AS ROOT"})
-    if (next) {
-     return next()
-    }
+    if (next) {next();}
+
+    Authorized.push(req.socket.remoteAddress)
 
     return true;
   } else {
-    res.status(401).json({response: "INCORRECT USER/PASS"})
+    res.status(403).json({response: "NOT-LOGGED-IN"});
   }
-
-  //res.set('WWW-Authenticate', 'Basic realm="401"')
 }
 
-secured.use(auth)
+secured.use(CheckAuthentication)
 secured.use(express.urlencoded({ extended: true }));
 secured.use(express.json());
 
@@ -62,23 +45,38 @@ public.use("/static", express.static(__dirname + "/client"))
 public.use("/secured", secured)
 
 public.listen(1820, () => {
-  console.log("Running at http://localhost:1820/web")
+  console.log("Running at http://localhost:1820/")
 })
 
 Renderer.on("message", (data) => {
     Frames.push(data)
 })
 
-public.post("/authorize", (req, res) => {
-  auth(req, res)
+secured.get("/security", (req, res) => {
+  res.status(200).json({response: "AUTHORIZED"})
 })
 
-public.get("/deauth", (req, res) => {
+secured.post('/settings/update', (req, res) => {
 
 })
 
-public.get("/web", (req, res) => {
-  res.sendFile(__dirname + "/./client/test.html")
+public.get("/", (req, res) => {
+  res.status(200).sendFile(__dirname + "/client/login.html")
+})
+
+public.post("/auth/login", (req, res) => {
+  const success = CheckAuthentication(req, res)
+
+  if (success) {
+    res.status(200).json({response: "LOGGED-IN"})
+
+    let x = Authorized.indexOf(req.socket.remoteAddress)
+    Authorized.splice(x, 1)
+  }
+})
+
+public.post("/auth/logout", (req, res) => {
+  res.status(401).json({response: "BAD-REQUEST"})
 })
 
 public.get("/settings", (req, res) => {
