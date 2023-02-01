@@ -1,13 +1,16 @@
 :root {
-  --bg: rgb(30,30,30);
-  --loginbg: rgb(35,35,35);
-  --inputbg: rgb(71, 71, 71);
+  --bg: rgb(17, 21, 27);
+  --loginoutline: rgb(65, 65, 65);
+  --loginbg: rgb(24, 30, 39);
+  --inputbg: rgb(49, 49, 49);
 
   --error: rgba(179, 62, 62, 0.637);
   --errorborder: rgb(202, 57, 57);
 
-  --success: rgba(62, 206, 59, 0.637);
-  --successborder: rgb(62, 188, 60);
+  --success: rgba(62, 156, 60, 0.637);
+  --successborder: rgb(55, 155, 53);
+
+  --subcolor: rgb(57, 134, 67);
 }
 
 h1, p , label{
@@ -26,6 +29,7 @@ body {
 
 input {
   border: none;
+  border-color: var(--bg);
   border-radius: 2px;
   height: 30px;
   outline: none;
@@ -34,11 +38,17 @@ input {
   padding-left: 7px;
   background-color: var(--inputbg);
   
-  transition: outline 0.2s;
+  transition: height 0.2s, border 0.1s;
 }
 
 input:hover {
-  outline: 2px solid rgba(255, 255, 255, 0.601)
+  outline: rgba(109, 109, 109, 0.836) solid 2px;
+
+  height: 30px;
+}
+
+input::placeholder {
+  color: rgb(172, 172, 172)
 }
 
 input:focus {
@@ -47,8 +57,8 @@ input:focus {
 
 .status-box {
   background-color: var(--success);
-  width:75%;
-  height: 10%;
+  width: 75%;
+  height: 12%;
 
   display: flex;
 
@@ -58,16 +68,19 @@ input:focus {
   text-align: center;
   flex-direction: column;
   justify-content: center;
+
+  transition: opacity 750ms;
 }
 
 .sub {
   background-color: rgb(39, 210, 102);
+  color: #ffffff;
+
   height: 30px;
+  width: 100%;
+
   border-radius: 2px;
   border:rgb(36, 160, 82);
-  color: #ffffff;
-  
-  margin-top: 50px;
 }
 
 .sub:hover {
@@ -76,21 +89,28 @@ input:focus {
 
 .title {
   text-align: center;
-  margin-top: -0%;
-  padding-top: 15px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
 }
 
 .container{
+  position: absolute;
+
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   margin-top: 25px;
-
+  
   height: 300px;
   width: 300px;
-
+  
+  border: 2px solid var(--loginoutline);
   background-color: var(--loginbg);
   border-radius: 5px;
 }
@@ -98,10 +118,13 @@ input:focus {
 .loginform label {
   padding-top: 10px;
   font-weight: bold;
+  align-items: flex-start;
 }
 
 .loginform{
-  padding-top: 10%;
+  position: absolute;
+
   display: flex;
+  align-items: center;
   flex-direction: column;
 }
