@@ -58,7 +58,7 @@ input:focus {
 .status-box {
   background-color: var(--success);
   width: 75%;
-  height: 12%;
+  height: 30px;
 
   display: flex;
 
@@ -75,9 +75,9 @@ input:focus {
 .sub {
   background-color: rgb(39, 210, 102);
   color: #ffffff;
-
+  margin-top: 25px;
   height: 30px;
-  width: 100%;
+  width: 50%;
 
   border-radius: 2px;
   border:rgb(36, 160, 82);
@@ -89,6 +89,7 @@ input:focus {
 
 .title {
   text-align: center;
+  margin-top: -50px
 }
 
 .inputs {
@@ -99,13 +100,8 @@ input:focus {
 }
 
 .container{
-  position: absolute;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  margin-top: 25px;
+  margin-top: 60px;
   
   height: 300px;
   width: 300px;
@@ -122,8 +118,6 @@ input:focus {
 }
 
 .loginform{
-  position: absolute;
-
   display: flex;
   align-items: center;
   flex-direction: column;
